@@ -1,0 +1,5 @@
+[0] Config.pm:343> INFO - This is Biber 2.5
+[1] Config.pm:346> INFO - Logfile is 'masters_thesis.Rmd.blg'
+[48] biber-darwin:290> INFO - === Wed Nov 15, 2017, 23:18:47
+[208] Utils.pm:165> ERROR - Cannot find control file 'masters_thesis.Rmd.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
+[208] Biber.pm:112> INFO - ERRORS: 1

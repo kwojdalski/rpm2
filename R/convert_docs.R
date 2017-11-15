@@ -19,7 +19,7 @@ convertDocs <- function(path, rmdChunkID=c("```{r", "}", "```"), rnwChunkID=c("<
     outDir <- file.path(dirname(path), "Rnw")
     if(is.null(doc.class <- dots$doc.class)) doc.class <- "article"
     if(is.null(doc.packages <- dots$doc.packages)) doc.packages <- "geometry"
-    doc.class.string <- paste0("\\documentclass{", doc.class, "}")
+    doc.class.string    <- paste0("\\documentclass{", doc.class, "}")
     doc.packages.string <- paste0(sapply(doc.packages, function(x) paste0("\\usepackage{", x, "}")), collapse="\n")
     if("geometry" %in% doc.packages) doc.packages.string <- c(doc.packages.string, "\\geometry{verbose, tmargin=2.5cm, bmargin=2.5cm, lmargin=2.5cm, rmargin=2.5cm}")
     header.rnw <- c(doc.class.string, doc.packages.string, "\\begin{document}\n")#,
@@ -29,10 +29,17 @@ convertDocs <- function(path, rmdChunkID=c("```{r", "}", "```"), rnwChunkID=c("<
     outDir <- file.path(dirname(path), "Rmd")
   } else stop("path must end in 'Rmd' or 'Rnw'.")
   if(type=="Rmd"){
-    sapply(rmd.files, .swap, header=header.rnw, outDir=outDir, rmdChunkID=rmdChunkID, rnwChunkID=rnwChunkID, emphasis=emphasis, overwrite=overwrite, ...)
+    # a_ply(rmd.files, 1, function(x){
+    #   .swap(file = x, header=header.rnw, outDir=outDir, rmdChunkID=rmdChunkID, rnwChunkID=rnwChunkID, emphasis=emphasis, overwrite=overwrite, ...)
+    # })
+    walk(rmd.files, function(file){
+      .swap(file, header=header.rnw, outDir=outDir, rmdChunkID=rmdChunkID, rnwChunkID=rnwChunkID, emphasis=emphasis, overwrite=overwrite, ...)
+    })
     cat(".Rmd to .Rnw file conversion complete.\n")
   } else {
-    sapply(rnw.files, .swap, header=NULL, outDir=outDir, rmdChunkID=rmdChunkID, rnwChunkID=rnwChunkID, emphasis=emphasis, overwrite=overwrite, ...)
+    walk(rnw.files, function(file){
+      .swap(file, header=NULL, outDir=outDir, rmdChunkID = rmdChunkID, rnwChunkID = rnwChunkID, emphasis=emphasis, overwrite=overwrite, ...)
+    })
     cat(".Rnw to .Rmd file conversion complete.\n")
   }
 }

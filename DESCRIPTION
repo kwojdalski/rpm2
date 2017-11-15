@@ -11,4 +11,10 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   assertthat,
-  glue
+  glue,
+  magrittr,
+  stringr,
+  plyr, 
+  purrr,
+  purrrlyr,
+  knitr

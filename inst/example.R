@@ -1,9 +1,4 @@
 
-# @knitr template_objects
-# For package 'rpm'
-
-# data
-
 rmd.template <-
   '\n
 ## Introduction
@@ -41,9 +36,6 @@ ADD_TEXT_HERE
 ADD_TEXT_HERE: EXAMPLE
 Setup consists of loading required **R** packages and additional files, preparing any command line arguments for use, and defining functions and other **R** objects.
 \n'
-
-# default path
-matt.proj.path <- "C:/github"
 
 
 
