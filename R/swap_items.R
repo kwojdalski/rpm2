@@ -12,10 +12,11 @@
   } else if(type == 'Rmd') {
 
     assert_that(is.list(doc) || is.character(doc), msg = 'doc should be a list')
+
     # start idx
     items.idx <- doc %>% str_which('\\*')
     start_idx <- ifelse(doc[items.idx - 1] == '\n', items.idx - 1, NA) %>% {.[!is.na(.)]} %>% {add(.,seq_along(.)-1)}
-    for(i in start_idx) doc <- append(doc, values = '\begin{itemize}', after = i)
+    for(i in start_idx) doc <- append(doc, values = '\\begin{itemize}', after = i)
     # end idx
     items.idx <- doc %>% str_which('\\*')
     end_idx   <- ifelse(doc[items.idx + 1] == '\n', items.idx + 1, NA) %>% {.[!is.na(.)]} %>% {add(.,seq_along(.)-1)}

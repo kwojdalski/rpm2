@@ -3,6 +3,8 @@ require(assertthat)
 require(magrittr)
 require(stringr)
 require(plyr)
-convertDocs('./data/Rmd', recursive = T)
+debugonce(rpm2:::.swap)
 
-
+convertDocs(path_folder = './data/Rmd', new_path_folder = './data/Rnw3', recursive = T)
+debugonce(rpm2:::.swapItems)
+convertDocs(type = 'Rmd', path_folder = './data/Rmd/chapters/subchapters', new_path_folder = './data/Rnw3', recursive = T)

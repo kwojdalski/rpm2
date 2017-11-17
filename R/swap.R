@@ -1,7 +1,7 @@
 
 # .swap -------------------------------------------------------------------
 
-.swap <- function(file, header=NULL, outDir, rmdChunkID, rnwChunkID, emphasis, overwrite, ...){
+.swap <- function(file, header=NULL, rmdChunkID, rnwChunkID, emphasis, ...){
   # Additional arguments
   title      <- list(...)$title
   author     <- list(...)$author
@@ -121,37 +121,20 @@
     # drop any remaining lines beginning with a backslash
     l <- l[-ind]
   }
-
-
-  if(!is.null(is_child) && is_child) outDir <- {if(ext =='Rmd') gsub(ext,'Rnw',x = file) else gsub(ext,'Rmd',x = file)} %>% {gsub(paste0('\\/', basename(.)),'',.)}
-
-  if(!file.exists(outDir)) dir.create(outDir, showWarnings = FALSE)
-  outfile <- file.path(outDir, gsub(paste0("\\.", ext), paste0("\\.", out.ext), basename(file)))
-
   # changing comments
   if(ext == 'Rmd'){
     # maybe'^'
-    l %<>% {gsub('<!-- (.*) -->', '%\\1', ., perl=T)}
+    l %<>% str_replace('<!-- (.*) -->', '%\\1')
   } else {
-    l %<>% {gsub('^%(.*)', '<!--\\1 -->', ., perl=T)}
+    l %<>% str_replace('^%(.*)', '<!--\\1 -->')
   }
+
   # Change Rnw childs to Rmd and the opposite, depending on the case
-
   if(ext == 'Rmd'){
-    l %<>% {gsub("\\.Rmd(\'|\")","\\.Rnw\\1",.,perl=T)}
+    l %<>% str_replace("\\.Rmd(\'|\")", "\\.Rnw\\1")
   } else {
-    l %<>% {gsub("\\.Rnw(\'|\")","\\.Rmd\\1",.,perl=T)}
-  }
-  if(!file.exists(dirname(outfile))){
-    dir.create(dirname(outfile), recursive = TRUE)
-    cat(glue("Directory {dirname(outfile)} created\n"))
-  }
-  if(overwrite || !file.exists(outfile)){
-    sink(outfile)
-    sapply(l, cat)
-    # writeLines(l,outfile)
-    sink(NULL)
-    print(glue("Writing {outfile}"))
+    l %<>% str_replace("\\.Rnw(\'|\")", "\\.Rmd\\1")
   }
 
+  return(list(lines = l, ext = ext, out.ext = out.ext,  is_child = is_child))
 }
