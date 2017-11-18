@@ -17,4 +17,5 @@ Imports:
   plyr, 
   purrr,
   purrrlyr,
-  knitr
+  knitr, 
+  readr

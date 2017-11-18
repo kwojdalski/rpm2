@@ -15,11 +15,11 @@
 
     # start idx
     items.idx <- doc %>% str_which('\\*')
-    start_idx <- ifelse(doc[items.idx - 1] == '\n', items.idx - 1, NA) %>% {.[!is.na(.)]} %>% {add(.,seq_along(.)-1)}
+    start_idx <- ifelse(doc[items.idx - 1] %in% c('\n', ''), items.idx - 1, NA) %>% {.[!is.na(.)]} %>% {add(.,seq_along(.)-1)}
     for(i in start_idx) doc <- append(doc, values = '\\begin{itemize}', after = i)
     # end idx
     items.idx <- doc %>% str_which('\\*')
-    end_idx   <- ifelse(doc[items.idx + 1] == '\n', items.idx + 1, NA) %>% {.[!is.na(.)]} %>% {add(.,seq_along(.)-1)}
+    end_idx   <- ifelse(doc[items.idx + 1] %in% c('','\n'), items.idx, NA) %>% {.[!is.na(.)]} %>% {add(.,seq_along(.)-1)}
     for(i in end_idx) doc <- append(doc, values = '\\end{itemize}', after = i)
     ret <- doc %>% str_replace('\\*', '\\\\item') #%>%
       # str_replace('\\\\begin\\{itemize\\}','') %>%

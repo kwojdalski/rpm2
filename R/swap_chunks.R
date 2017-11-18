@@ -9,7 +9,7 @@
   nc <- nchar(x)
   # chunk.start.open <- substr(x, 1, nchar(from[1]))==from[1]
 
-  from %<>% {gsub('(\\{|\\})','\\\\\\1', x=., perl=T)}
+  from %<>% str_replace_all('(\\{|\\})','\\\\\\1')
   to_match <- paste0('^',gsub('\\s','',from[1]))
   chunk.start.open <- str_detect(string = x, to_match)
 
@@ -21,7 +21,7 @@
   x[chunk.start] <- gsub(from[2], to[2],
                          gsub(from[1], to[1], x[chunk.start]))
 
-  x[chunk.end]   <- gsub(paste0(from[3],'(\\n$)'),
+  x[chunk.end]   <- gsub(paste0(from[3],'(\\n?)$'),
                          paste0(to[3],'\\1'),
                          x[chunk.end])
   if(!length(x[chunk.end])) warning(glue('Chunk end is incorrect'))

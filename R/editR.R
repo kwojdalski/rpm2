@@ -2,5 +2,5 @@
 # devtools::install_github("trestletech/shinyAce")
 # devtools::install_github("swarm-lab/editR")
 #
-# library(editR)
-# editR("./Rmd/masters_thesis.Rmd")
+library(editR)
+editR("./data/Rmd2/masters_thesis.Rmd")

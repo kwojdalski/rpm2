@@ -7,8 +7,8 @@
                                   overwrite        = NULL,
                                   path_folder      = NULL,
                                   new_path_folder  = NULL) {
-
-  out_dir <- str_replace(dirname(file), path_folder, new_path_folder)
+  clean_path_folder <- str_replace(path_folder, '\\/$','')
+  out_dir <- str_replace(dirname(file), clean_path_folder, new_path_folder)
   outfile <- file.path(out_dir,
                        str_replace(basename(file), paste0("\\.", ext), paste0("\\.", out.ext)))
 

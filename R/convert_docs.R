@@ -5,7 +5,7 @@
 # @knitr fun_convertDocs
 # Rmd <-> Rnw document conversion
 # Main conversion function
-convertDocs <- function(type = 'Rmd', path_folder = NULL,
+convertDocs <- function(type = NULL, path_folder = NULL,
                         new_path_folder = NULL,
                         rmdChunkID=c("```{r", "}", "```"),
                         rnwChunkID=c("<<", ">>=", "@"), emphasis="replace", overwrite=FALSE, copy_other_files = TRUE, ...){
@@ -42,11 +42,11 @@ convertDocs <- function(type = 'Rmd', path_folder = NULL,
     #paste0("<<highlight, echo=FALSE>>=\nknit_theme$set(knit_theme$get('", theme, "'))\n@\n"))
   } else if(type=="Rnw") {
     assert_that(length(rnw.files) > 0, msg = 'No .Rnw files in {path_folder}')
-    if(is.null(new_path_folder)) outDir <- file.path(dirname(path_folder), "Rmd") else outDir <- file.path(dirname(path_folder), new_type_folder)
+    if(is.null(new_path_folder)) outDir <- file.path(dirname(path_folder), "Rmd") else outDir <- file.path(dirname(path_folder), new_path_folder)
   } else stop("path_folder must end in 'Rmd' or 'Rnw'.")
   if(type=="Rmd"){
     walk(rmd.files, function(file){
-      to_save <- .swap(file, header = header.rnw, rmdChunkID = rmdChunkID,  rnwChunkID = rnwChunkID, emphasis = emphasis,  ...)
+      to_save <- .swap(file, header = header.rnw, rmdChunkID = rmdChunkID,  rnwChunkID = rnwChunkID, emphasis = emphasis, ...)
       .save_converted_files(to_save$lines, ext = to_save$ext, out.ext = to_save$out.ext, overwrite = TRUE, file = file,
                             path_folder = path_folder, new_path_folder = new_path_folder)
     })
